@@ -1,4 +1,4 @@
-// Максимальное количество точек после запятой
+// Максимальное количество знаков после запятой
 const AMOUNT_SEMICOLONS = 10;
 
 function getRandomNumber (min, max, range) {
@@ -12,7 +12,7 @@ function getRandomNumber (min, max, range) {
     let number;
     let correctRange;
 
-    ((min % 1) !== 0 || (max & 1) !== 0) ? number = min + Math.random() * (max + 0.1 - min) : number = min + Math.random() * (max + 1 - min);
+    number = ((min % 1) !== 0 || (max % 1) !== 0) ? number = min + Math.random() * (max + 0.1 - min) : number = min + Math.random() * (max + 1 - min);
 
     if (range === 0 || range === undefined || range < 0) {
       correctRange = 0;
