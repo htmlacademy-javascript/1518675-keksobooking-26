@@ -14,7 +14,7 @@ function getRandomNumber (min, max, range) {
 
     number = ((min % 1) !== 0 || (max % 1) !== 0) ? number = min + Math.random() * (max + 0.1 - min) : number = min + Math.random() * (max + 1 - min);
 
-    if (range === 0 || range === undefined || range < 0) {
+    if (range === 0 || range < 0) {
       correctRange = 0;
     } else if (range > AMOUNT_SEMICOLONS) {
       correctRange = AMOUNT_SEMICOLONS;
