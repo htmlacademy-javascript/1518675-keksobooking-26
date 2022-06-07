@@ -1,33 +1,31 @@
-// Максимальное количество точек после запятой
+// Максимальное количество знаков после запятой
 const AMOUNT_SEMICOLONS = 10;
 
 function getRandomNumber (min, max, range) {
-  if ((typeof min) === 'number' && (typeof max) === 'number' && (typeof range) === 'number') {
 
-    if (min < max && min >= 0 && max >= 0 && (range % 1) === 0) {
+  if (min > max) {
+    [min, max] = [max, min];
+  }
 
-      let number;
-      let correctRange;
+  if (min < max && min >= 0 && max >= 0 && (range % 1) === 0) {
 
-      if ((min % 1) !== 0 || (max & 1) !== 0) {
-        number = min + Math.random() * (max + 0.1 - (min + 0.1));
-      } else {
-        number = min + Math.random() * (max + 1 - min);
-      }
+    let number;
+    let correctRange;
 
-      if (range === 0 || range === undefined || range < 0) {
-        correctRange = 0;
-      } else if (range > AMOUNT_SEMICOLONS) {
-        correctRange = AMOUNT_SEMICOLONS;
-      } else {
-        correctRange = range;
-      }
+    number = ((min % 1) !== 0 || (max % 1) !== 0) ? number = min + Math.random() * (max + 0.1 - min) : number = min + Math.random() * (max + 1 - min);
 
-      return Math.floor(number * Math.pow(10, correctRange)) / Math.pow(10, correctRange);
+    if (range === 0 || range < 0) {
+      correctRange = 0;
+    } else if (range > AMOUNT_SEMICOLONS) {
+      correctRange = AMOUNT_SEMICOLONS;
+    } else {
+      correctRange = range;
     }
 
+    return number.toFixed(correctRange);
   }
-  return 0;
+
+  return -1;
 }
 
-getRandomNumber(2, 100, 4);
+getRandomNumber(2, 40, 1);
