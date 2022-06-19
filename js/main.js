@@ -1,5 +1,4 @@
 // Функция возвращающает случайное число с плавающей точкой из переданного диапазона включительно
-
 const getRandomPositiveFloat = (a, b, digits = 1) => {
 
   const lower = Math.min(Math.abs(a), Math.abs(b));
@@ -10,14 +9,18 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
   return +result.toFixed(digits);
 };
 
-// Функция генерирует объект с описанием авторов
-const generateAuthorObj = (obj = {}) => {
-  for (let i = 1; i <= 10; i++) {
-    obj[i] = {};
-    obj[i].avatar = `img/avatars/user${(i < 10) ? `0${i}` : i}.png`;
-  }
+// Функция возвращает случайный элемент из массива
+const getRandomArrayElement = (elements) => {
+  return elements[getRandomPositiveFloat(0, elements.length - 1, 0)];
+}
 
-  return obj;
+// Функция генерирует объект с описанием авторов
+let i = 0;
+const generateAuthorObj = (obj = {}) => {
+  i++;
+  return {
+    avatar: `img/avatars/user${(i < 10) ? `0${i}` : i}.png`
+  }
 };
 
 // Функция генерирует объект с информацией об объявлениях
@@ -26,48 +29,41 @@ const CHECK_IN_TIME = ['12:00', '13:00', '14:00'];
 const CHECK_OUT_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-const generateOfferObj = (obj = {}) => {
-  for (let i = 1; i <= 10; i++) {
-    obj[i] = {};
-    obj[i].title = 'Кликбейт заголовок';
-    obj[i].address = {};
-    obj[i].address.location = {};
-    obj[i].address.location.lat = '8582162';
-    obj[i].address.location.lng = '2186005';
-    obj[i].price = getRandomPositiveFloat(0, 20000, 0);
-    obj[i].type = OBJECT_TYPES[getRandomPositiveFloat(0, OBJECT_TYPES.length - 1, 0)];
-    obj[i].rooms = getRandomPositiveFloat(0, 6, 0);
-    obj[i].guests = getRandomPositiveFloat(0, 25, 0);
-    obj[i].checkin = CHECK_IN_TIME[getRandomPositiveFloat(0, CHECK_IN_TIME.length - 1, 0)];
-    obj[i].checkout = CHECK_OUT_TIME[getRandomPositiveFloat(0, CHECK_OUT_TIME.length - 1, 0)];
-
-    // Клонирование массива, чтобы объекты features были разные в каждой итерации
-    const cloneFeatures = Object.assign([], FEATURES);
-    obj[i].features = cloneFeatures.sort(() => Math.random() - 0.5);
-    obj[i].description = 'Супер крутое жильё. 10/10';
-    obj[i].photos = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+const generateOfferObj = () => {
+  return {
+    title: 'Кликбейт заголовок',
+    address: {
+      location: {
+        lat: '8582162',
+        lng: '2186005'
+      }
+    },
+    price: getRandomPositiveFloat(0, 20000, 0),
+    type: getRandomArrayElement(OBJECT_TYPES),
+    rooms: getRandomPositiveFloat(0, 6, 0),
+    guests: getRandomPositiveFloat(0, 25, 0),
+    checkin: getRandomArrayElement(CHECK_IN_TIME),
+    checkout: getRandomArrayElement(CHECK_OUT_TIME),
+    features: FEATURES.slice(getRandomPositiveFloat(0, FEATURES.length - 1, 0)).sort(() => Math.random() - 0.5),
+    description: 'Супер крутое жильё',
+    photos: ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
       'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-      'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-  }
-
-  return obj;
+      'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg']
+  };
 };
 
-// Функция генерирует объект с информации о местоположении в виде географических координат
-const generateLocationObj = (obj = {}) => {
-  for (let i = 1; i <= 10; i++) {
-    obj[i] = {};
-    obj[i].lat = `35.${getRandomPositiveFloat(65, 70, 0)}00`;
-    obj[i].lng = `139.${getRandomPositiveFloat(70, 80, 0)}00`;
-  }
-
-  return obj;
+// Функция генерирует объект с информацией о местоположении в виде географических координат
+const generateLocationObj = () => {
+  return {
+    lat: `35.${getRandomPositiveFloat(65, 70, 0)}00`,
+    lng: `139.${getRandomPositiveFloat(70, 80, 0)}00`
+  };
 };
 
-const authorObj = generateAuthorObj();
-const offerObj = generateOfferObj();
-const locationObj = generateLocationObj();
+const authorsObj = Array.from({length: 10}, generateAuthorObj);;
+const offersObj = Array.from({length: 10}, generateOfferObj);
+const locationsObj = Array.from({length: 10}, generateLocationObj);
 
-console.log(authorObj); // eslint-disable-line no-console
-console.log(offerObj); // eslint-disable-line no-console
-console.log(locationObj); // eslint-disable-line no-console
+console.log(authorsObj); // eslint-disable-line no-console
+console.log(offersObj); // eslint-disable-line no-console
+console.log(locationsObj); // eslint-disable-line no-console
