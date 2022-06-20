@@ -56,10 +56,13 @@ const generateLocationObj = () => ({
   lng: getRandomCoordinate(lng, DIGITS_COORDINATE)
 });
 
-const authorsObj = Array.from({length: OBJECTS_AMOUNT}, generateAuthorObj);
-const offersObj = Array.from({length: OBJECTS_AMOUNT}, generateOfferObj);
-const locationsObj = Array.from({length: OBJECTS_AMOUNT}, generateLocationObj);
+const objectsArray = [];
+for (let j = 0; j < OBJECTS_AMOUNT; j++) {
+  objectsArray[j] = {};
 
-console.log(authorsObj); // eslint-disable-line no-console
-console.log(offersObj); // eslint-disable-line no-console
-console.log(locationsObj); // eslint-disable-line no-console
+  objectsArray[j].author = generateAuthorObj();
+  objectsArray[j].offer = generateOfferObj();
+  objectsArray[j].location = generateLocationObj();
+}
+
+console.log(objectsArray); // eslint-disable-line no-console
