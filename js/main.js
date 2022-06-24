@@ -1,5 +1,6 @@
-import {createData} from './create-data.js';
+import {createData} from './data.js';
+import {createCards} from './create-elements.js';
 
 const mocks = createData();
 
-console.log(mocks); // eslint-disable-line no-console
+createCards(mocks.slice(0, 1));

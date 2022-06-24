@@ -1,10 +1,23 @@
-import {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate} from './utils.js';
+import {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getRandomObjectKey} from './utils.js';
 
 // Константы
-const OBJECT_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const OBJECT_TYPES = {
+  palace: 'Дворец',
+  house: 'Дом',
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  hotel: 'Отель'
+};
+const FEATURES = {
+  wifi: 'Wi-Fi',
+  dishwasher: 'Посудомоечная машина',
+  parking: 'Парковка',
+  washer: 'Стиральная машина',
+  elevator: 'Лифт',
+  conditioner: 'Кондиционер'
+};
 const CHECK_IN_TIME = ['12:00', '13:00', '14:00'];
 const CHECK_OUT_TIME = ['12:00', '13:00', '14:00'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const MAX_PRICE = 6000000;
 const lat = { MIN: 35.65000, MAX: 35.70000 };
 const lng = { MIN: 139.70000, MAX: 139.80000 };
@@ -25,12 +38,12 @@ const generateOfferObj = () => ({
   title: 'Кликбейт заголовок',
   address: `${getRandomCoordinate(lat, DIGITS_COORDINATE)}, ${getRandomCoordinate(lng, DIGITS_COORDINATE)}`,
   price: getRandomPositiveFloat(0, MAX_PRICE, 0),
-  type: getRandomArrayElement(OBJECT_TYPES),
+  type: getRandomObjectKey(OBJECT_TYPES),
   rooms: getRandomPositiveFloat(0, 6, 0),
   guests: getRandomPositiveFloat(0, 25, 0),
   checkin: getRandomArrayElement(CHECK_IN_TIME),
   checkout: getRandomArrayElement(CHECK_OUT_TIME),
-  features: FEATURES.slice(getRandomPositiveFloat(0, FEATURES.length - 1, 0)).sort(() => Math.random() - 0.5),
+  features: Object.keys(FEATURES).slice(getRandomPositiveFloat(0, Object.keys(FEATURES).length - 1, 0)).sort(() => Math.random() - 0.5),
   description: 'Супер крутое жильё',
   photos: ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -43,4 +56,16 @@ const generateLocationObj = () => ({
   lng: getRandomCoordinate(lng, DIGITS_COORDINATE)
 });
 
-export {OBJECTS_AMOUNT, generateAuthorObj, generateOfferObj, generateLocationObj};
+const createData = (array = []) => {
+  for (let j = 0; j < OBJECTS_AMOUNT; j++) {
+    array[j] = {};
+
+    array[j].author = generateAuthorObj();
+    array[j].offer = generateOfferObj();
+    array[j].location = generateLocationObj();
+  }
+
+  return array;
+};
+
+export {OBJECTS_AMOUNT, OBJECT_TYPES, FEATURES, generateAuthorObj, generateOfferObj, generateLocationObj, createData};
