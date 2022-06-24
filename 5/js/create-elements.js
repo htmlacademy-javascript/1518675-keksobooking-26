@@ -20,18 +20,13 @@ const createCards = (cards) => {
     const featuresContainer = cardElement.querySelector('.popup__features');
     featuresContainer.innerHTML = '';
     offer.features.forEach((feature) => {
-      const newIcon = document.createElement('li');
-      newIcon.className = `popup__feature popup__feature--${feature}`;
-      newIcon.innerHTML = newIcon;
-
-      featuresContainer.append(newIcon);
+      featuresContainer.innerHTML += `<li class="popup__feature popup__feature--${feature}"></li>`;
     });
 
     const photosContainer = cardElement.querySelector('.popup__photos');
+    photosContainer.innerHTML = '';
     offer.photos.forEach((photo) => {
-      const photosImage = photosContainer.querySelector('.popup__photo').cloneNode(true);
-      photosImage.src = photo;
-      photosContainer.appendChild(photosImage);
+      photosContainer.innerHTML += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
     });
 
     cardListFragment.appendChild(cardElement);
