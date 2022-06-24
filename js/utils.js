@@ -10,7 +10,10 @@ const getRandomPositiveFloat = (a, b, digits = 1) => {
 // Функция возвращает случайный элемент из массива
 const getRandomArrayElement = (elements) => elements[getRandomPositiveFloat(0, elements.length - 1, 0)];
 
+// Функция возвращает случайный ключ из объекта
+const getRandomObjectKey = (object) => Object.keys(object)[getRandomPositiveFloat(0, Object.keys(object).length - 1, 0)];
+
 // Функция возвращает случайные координаты из заданного диапазона
 const getRandomCoordinate = (coordinate, digits) => getRandomPositiveFloat(coordinate.MIN, coordinate.MAX, digits);
 
-export {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate};
+export {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getRandomObjectKey};
