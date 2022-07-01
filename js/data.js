@@ -2,12 +2,28 @@ import {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getR
 
 // Константы
 const OBJECT_TYPES = {
-  palace: 'Дворец',
-  house: 'Дом',
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  hotel: 'Отель'
+  palace: {
+    name: 'Дворец',
+    minPrice: 10000
+  },
+  house: {
+    name: 'Дом',
+    minPrice: 5000
+  },
+  flat: {
+    name: 'Квартира',
+    minPrice: 1000
+  },
+  bungalow: {
+    name: 'Бунгало',
+    minPrice: 0
+  },
+  hotel: {
+    name: 'Отель',
+    minPrice: 3000
+  }
 };
+
 const FEATURES = {
   wifi: 'Wi-Fi',
   dishwasher: 'Посудомоечная машина',
@@ -16,6 +32,7 @@ const FEATURES = {
   elevator: 'Лифт',
   conditioner: 'Кондиционер'
 };
+
 const CHECK_IN_TIME = ['12:00', '13:00', '14:00'];
 const CHECK_OUT_TIME = ['12:00', '13:00', '14:00'];
 const MAX_PRICE = 6000000;
