@@ -22,14 +22,10 @@ const enableForm = () => {
 
 const formData = {
   title: {
-    required: true,
-    type: 'text',
     min: 30,
     max: 100
   },
   price: {
-    required: true,
-    type: 'number',
     min: 0,
     max: 100000
   },
@@ -56,7 +52,7 @@ const formInfoTitle = document.querySelector('#title');
 pristine.addValidator(formInfoTitle, validateFormTitle, validateFormTitleMessage);
 
 // Валидация цены
-const validateFormPrice = (value) => value.length !== 0 && value >= OBJECT_TYPES[formInfo.querySelector('#type option:checked').value].minPrice && value <= 100000;
+const validateFormPrice = (value) => value.length !== 0 && value >= OBJECT_TYPES[formInfo.querySelector('#type option:checked').value].minPrice && value <= formData.price.max;
 
 const validateFormPriceMessage = (value) => {
   const actualMinPrice = OBJECT_TYPES[formInfo.querySelector('#type option:checked').value].minPrice;
@@ -102,32 +98,21 @@ roomNumber.addEventListener('change', roomsAmountHandler);
 
 // Синхронизация времени заезда и выезда
 const timeIn = formInfo.querySelector('#timein');
-const timeOutOptions = formInfo.querySelectorAll('[name="timeout"] option');
-const timeInHandler = (evt) => {
-  timeOutOptions.forEach((item) => {
-    if (item.value === evt.target.value) {
-      item.selected = true;
-    }
-  });
+const timeOut = formInfo.querySelector('#timeout');
+
+const timeInHandler = () => {
+  timeOut.value = timeIn.value;
 };
 
 timeIn.addEventListener('change', timeInHandler);
 
-const timeOut = formInfo.querySelector('#timeout');
-const timeInOptions = formInfo.querySelectorAll('[name="timein"] option');
-const timeOutHandler = (evt) => {
-  timeInOptions.forEach((item) => {
-    if (item.value === evt.target.value) {
-      item.selected = true;
-    }
-  });
+const timeOutHandler = () => {
+  timeIn.value = timeOut.value;
 };
 
 timeOut.addEventListener('change', timeOutHandler);
 
-formInfo.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-
+formInfo.addEventListener('submit', () => {
   pristine.validate();
 });
 
