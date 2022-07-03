@@ -45,7 +45,6 @@ const pristine = new Pristine(formInfo, {
 
 // Валидация заголовка
 const validateFormTitle = (value) => value.length >= formData.title.min && value.length <= formData.title.max;
-
 const validateFormTitleMessage = (value) => value.length === 0 ? 'Поле обязательно для заполнения' : `От ${formData.title.min} до ${formData.title.max} символов`;
 
 const formInfoTitle = document.querySelector('#title');
