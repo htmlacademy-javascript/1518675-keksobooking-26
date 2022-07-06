@@ -85,4 +85,4 @@ const createData = (array = []) => {
   return array;
 };
 
-export {OBJECTS_AMOUNT, OBJECT_TYPES, FEATURES, generateAuthorObj, generateOfferObj, generateLocationObj, createData};
+export {OBJECTS_AMOUNT, OBJECT_TYPES, FEATURES, MAX_PRICE, generateAuthorObj, generateOfferObj, generateLocationObj, createData};
