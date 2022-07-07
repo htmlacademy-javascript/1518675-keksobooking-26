@@ -1,10 +1,9 @@
 import {createData} from './data.js';
-import {createCards} from './create-elements.js';
-import {disableForm, enableForm} from './form.js';
+import {createMarker} from './map.js';
+import './slider.js';
 
 const mocks = createData();
 
-createCards(mocks.slice(0, 1));
-
-disableForm();
-enableForm();
+mocks.forEach((item) => {
+  createMarker(item);
+});

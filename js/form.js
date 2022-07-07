@@ -5,7 +5,9 @@ const formFieldsets = document.querySelectorAll('.ad-form fieldset');
 const mapFilters = document.querySelector('.map__filters');
 
 const disableForm = () => {
-  formInfo.classList.toggle('ad-form--disabled');
+  if (!formInfo.classList.contains('ad-form--disabled')) {
+    formInfo.classList.add('ad-form--disabled');
+  }
   mapFilters.classList.toggle('map__filters--disabled');
   mapFilters.querySelectorAll('select').forEach((item) => { item.disabled = true; });
   mapFilters.querySelector('fieldset').disabled = true;
@@ -13,7 +15,9 @@ const disableForm = () => {
 };
 
 const enableForm = () => {
-  formInfo.classList.toggle('ad-form--disabled');
+  if (formInfo.classList.contains('ad-form--disabled')) {
+    formInfo.classList.remove('ad-form--disabled');
+  }
   mapFilters.classList.toggle('map__filters--disabled');
   mapFilters.querySelectorAll('select').forEach((item) => { item.disabled = false; });
   mapFilters.querySelector('fieldset').disabled = false;
@@ -40,7 +44,7 @@ const formData = {
 const pristine = new Pristine(formInfo, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__error-text'
+  errorTextClass: 'ad-form__error-text',
 });
 
 // Валидация заголовка
@@ -115,4 +119,4 @@ formInfo.addEventListener('submit', () => {
   pristine.validate();
 });
 
-export {disableForm, enableForm};
+export {disableForm, enableForm, validateFormPrice};

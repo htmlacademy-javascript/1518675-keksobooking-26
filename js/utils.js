@@ -17,3 +17,29 @@ const getRandomObjectKey = (object) => Object.keys(object)[getRandomPositiveFloa
 const getRandomCoordinate = (coordinate, digits) => getRandomPositiveFloat(coordinate.MIN, coordinate.MAX, digits);
 
 export {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getRandomObjectKey};
+
+
+// Функция возвращает корректную форму множественного числа
+const getNounPluralForm = (number, one, two, many) => {
+  const mod10 = number % 10;
+  const mod100 = number % 100;
+
+  switch (true) {
+    case (mod100 >= 11 && mod100 <= 20):
+      return many;
+
+    case (mod10 > 5):
+      return many;
+
+    case (mod10 === 1):
+      return one;
+
+    case (mod10 >= 2 && mod10 <= 4):
+      return two;
+
+    default:
+      return many;
+  }
+};
+
+export {getNounPluralForm};
