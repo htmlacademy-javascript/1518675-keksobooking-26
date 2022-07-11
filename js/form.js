@@ -1,4 +1,6 @@
 import {OBJECT_TYPES} from './data.js';
+import {sendData} from './api.js';
+import {showSendDataError} from './errors.js';
 
 const formInfo = document.querySelector('.ad-form');
 const formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -115,8 +117,32 @@ const timeOutHandler = () => {
 
 timeOut.addEventListener('change', timeOutHandler);
 
-formInfo.addEventListener('submit', () => {
-  pristine.validate();
-});
+// Функция возврата полей формы в первоначальное состояние
+const resetForm = () => {
+  formInfo.reset();
+};
 
-export {disableForm, enableForm, validateFormPrice};
+document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
+
+// Функция отправки формы пользователя
+const setUserFormSubmit = (onSuccess) => {
+  formInfo.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
+      sendData(
+        () => {
+          onSuccess();
+          resetForm();
+        },
+        () => {
+          showSendDataError();
+          resetForm();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm};

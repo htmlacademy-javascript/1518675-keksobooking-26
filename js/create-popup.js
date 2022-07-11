@@ -19,17 +19,22 @@ const createPopup = ({author, offer}) => {
 
   const featuresContainer = popup.querySelector('.popup__features');
   featuresContainer.innerHTML = '';
-  offer.features.forEach((feature) => {
-    featuresContainer.innerHTML += `<li class="popup__feature popup__feature--${feature}"></li>`;
-  });
+  if (offer.features) {
+    offer.features.forEach((feature) => {
+      featuresContainer.innerHTML += `<li class="popup__feature popup__feature--${feature}"></li>`;
+    });
+  }
 
   popup.querySelector('.popup__description').textContent = `${offer.description}`;
 
   const photosContainer = popup.querySelector('.popup__photos');
   photosContainer.innerHTML = '';
-  offer.photos.forEach((photo) => {
-    photosContainer.innerHTML += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-  });
+  if (offer.photos) {
+    offer.photos.forEach((photo) => {
+      photosContainer.innerHTML += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+    });
+  }
+
 
   return popup;
 };

@@ -1,9 +1,13 @@
-import {createData} from './data.js';
 import {createMarker} from './map.js';
 import './slider.js';
+import {getData, sendData} from './api.js';
+import {showGetDataError} from './errors.js';
+import {setUserFormSubmit} from './form.js';
 
-const mocks = createData();
+getData((objects) => {
+  objects.forEach((object) => {
+    createMarker(object);
+  });
+}, showGetDataError);
 
-mocks.forEach((item) => {
-  createMarker(item);
-});
+setUserFormSubmit(sendData);
