@@ -1,13 +1,9 @@
-import {createMarker} from './map.js';
 import './slider.js';
-import {getData, sendData} from './api.js';
+import {makeRequest} from './api.js';
 import {showGetDataError} from './errors.js';
-import {setUserFormSubmit} from './form.js';
+import {setUserFormSubmit, resetForm} from './form.js';
+import {generateObjects} from './create-elements.js';
 
-getData((objects) => {
-  objects.forEach((object) => {
-    createMarker(object);
-  });
-}, showGetDataError);
+makeRequest(generateObjects, showGetDataError, 'GET');
 
-setUserFormSubmit(sendData);
+setUserFormSubmit(resetForm);

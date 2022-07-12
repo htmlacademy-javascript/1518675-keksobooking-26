@@ -1,5 +1,5 @@
 import {OBJECT_TYPES} from './data.js';
-import {sendData} from './api.js';
+import {makeRequest} from './api.js';
 import {showSendDataError} from './errors.js';
 
 const formInfo = document.querySelector('.ad-form');
@@ -124,21 +124,37 @@ const resetForm = () => {
 
 document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
 
+// Функция блокирует кнопку отправки
+const blockSubmitButton = () => {
+  const button = document.querySelector('.ad-form__submit');
+  button.disabled = true;
+  button.textContent = 'Выполнение...';
+};
+
+// Функция разблокирует кнопку отправки
+const unblockSubmitButton = () => {
+  const button = document.querySelector('.ad-form__submit');
+  button.disabled = false;
+  button.textContent = 'Опубликовать';
+};
+
 // Функция отправки формы пользователя
 const setUserFormSubmit = (onSuccess) => {
   formInfo.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
-      sendData(
+      blockSubmitButton();
+      makeRequest(
         () => {
           onSuccess();
-          resetForm();
+          unblockSubmitButton();
         },
         () => {
           showSendDataError();
-          resetForm();
+          unblockSubmitButton();
         },
+        'POST',
         new FormData(evt.target),
       );
     }
