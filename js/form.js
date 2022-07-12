@@ -1,4 +1,6 @@
 import {OBJECT_TYPES} from './data.js';
+import {makeRequest} from './api.js';
+import {showSendDataError} from './errors.js';
 
 const formInfo = document.querySelector('.ad-form');
 const formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -115,8 +117,48 @@ const timeOutHandler = () => {
 
 timeOut.addEventListener('change', timeOutHandler);
 
-formInfo.addEventListener('submit', () => {
-  pristine.validate();
-});
+// Функция возврата полей формы в первоначальное состояние
+const resetForm = () => {
+  formInfo.reset();
+};
 
-export {disableForm, enableForm, validateFormPrice};
+document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
+
+// Функция блокирует кнопку отправки
+const blockSubmitButton = () => {
+  const button = document.querySelector('.ad-form__submit');
+  button.disabled = true;
+  button.textContent = 'Выполнение...';
+};
+
+// Функция разблокирует кнопку отправки
+const unblockSubmitButton = () => {
+  const button = document.querySelector('.ad-form__submit');
+  button.disabled = false;
+  button.textContent = 'Опубликовать';
+};
+
+// Функция отправки формы пользователя
+const setUserFormSubmit = (onSuccess) => {
+  formInfo.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
+      blockSubmitButton();
+      makeRequest(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showSendDataError();
+          unblockSubmitButton();
+        },
+        'POST',
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm};

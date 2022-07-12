@@ -1,4 +1,5 @@
 import {OBJECT_TYPES} from './data.js';
+import {createMarker} from './map.js';
 
 const createCards = (cards) => {
   const cardTemplate = document.querySelector('#card').content;
@@ -35,4 +36,10 @@ const createCards = (cards) => {
   mapCanvas.appendChild(cardListFragment);
 };
 
-export {createCards};
+const generateObjects = (objects) => {
+  objects.forEach((object) => {
+    createMarker(object);
+  });
+};
+
+export {createCards, generateObjects};
