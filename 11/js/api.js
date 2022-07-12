@@ -1,32 +1,23 @@
-const getData = (onSuccess, onFail) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/dat2a')
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
+const Urls = {
+  GET: 'https://26.javascript.pages.academy/keksobooking/data',
+  POST: 'https://26.javascript.pages.academy/keksobooking',
+};
 
-      throw new Error('Ошибка загрузки данных');
-    })
-    .then((objects) => {
-      onSuccess(objects);
+const makeRequest = (onSuccess, onError, method, body) => {
+  fetch(
+    Urls[method],
+    {
+      method: method,
+      body: body,
+    },
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      onSuccess(data);
     })
     .catch((err) => {
-      onFail(err);
+      onError(err);
     });
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch('https://26.javascript.pages.academy/keksobooking', { method: 'POST', body })
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      }
-
-      throw new Error('Ошибка отправки данных');
-    })
-    .catch(() => {
-      onFail();
-    });
-};
-
-export {getData, sendData};
+export {makeRequest, Urls};
