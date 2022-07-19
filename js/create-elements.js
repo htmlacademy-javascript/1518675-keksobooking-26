@@ -1,5 +1,5 @@
 import {OBJECT_TYPES} from './data.js';
-import {createMarker} from './map.js';
+import {createMarker, markerGroup} from './map.js';
 
 const createCards = (cards) => {
   const cardTemplate = document.querySelector('#card').content;
@@ -36,10 +36,79 @@ const createCards = (cards) => {
   mapCanvas.appendChild(cardListFragment);
 };
 
+
+// Код фильтра
+const setUserFormFilter = (cb) => {
+  const filterMap = document.querySelector('.map__filters');
+  filterMap.addEventListener('change', function() {
+    markerGroup.clearLayers();
+
+    cb();
+  });
+};
+
+const priceFormRange = {
+  any: { start: 0, end: 50000000 },
+  middle: { start: 10000, end: 50000 },
+  low: { start: 0, end: 10000 },
+  high: { start: 50000, end: 50000000 }
+};
+
+const filterType = (object) => {
+  const type = document.querySelector('#housing-type').value;
+  return object.offer.type === type || type === 'any';
+};
+
+const filterPrice = (object) => {
+  const price = document.querySelector('#housing-price').value;
+  return object.offer.price <= priceFormRange[price].start && object.offer.price >= priceFormRange[price].end;
+};
+
+const filterObjects = (objects) => {
+
+  const filteredObjects = [];
+
+  console.log('Объекты, приходящие в filterObjects:');
+  console.log(objects);
+
+  const copy = objects.slice();
+
+  for (let i = 0; i <= copy.length; i++) {
+
+    if (filteredObjects.length < LIMIT_OF_OBJECTS) {
+      if (filterType(copy[i])) {
+        filteredObjects.push(copy[i]);
+      }
+    }
+  }
+
+  console.log('Отфильтрованные объекты:');
+  console.log(filteredObjects);
+
+  return filteredObjects;
+}
+
+
+const LIMIT_OF_OBJECTS = 15;
+
+
+// Код генерации элементов
 const generateObjects = (objects) => {
-  objects.forEach((object) => {
+
+  const filteredObjects = filterObjects(objects);
+
+
+  filteredObjects.forEach((object) => {
     createMarker(object);
   });
 };
+
+
+const generatedFilteredObjects = (objects) => {
+  setUserFormFilter(() => generateObjects(objects));
+
+
+};
+
 
 export {createCards, generateObjects};

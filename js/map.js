@@ -84,4 +84,4 @@ const createMarker = (item) => {
     .bindPopup(createPopup(item));
 };
 
-export {createMarker, createPopup};
+export {createMarker, createPopup, markerGroup};
