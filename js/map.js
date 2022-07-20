@@ -20,14 +20,14 @@ const map = L.map('map-canvas')
   .setView({
     lat: CENTER_OF_TOKYO.lat,
     lng: CENTER_OF_TOKYO.lng,
-}, 10);
+  }, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
-  ).addTo(map);
+).addTo(map);
 
 // Создание кастомных пинов
 const mainPinIcon = L.icon({
@@ -44,14 +44,14 @@ const pinIcon =({
 
 // Добавление главного пина
 const marker = L.marker(
-{
-  lat: CENTER_OF_TOKYO.lat,
-  lng: CENTER_OF_TOKYO.lng,
-},
-{
-  draggable: true,
-  icon: mainPinIcon,
-}
+  {
+    lat: CENTER_OF_TOKYO.lat,
+    lng: CENTER_OF_TOKYO.lng,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  }
 );
 
 marker.addTo(map);
@@ -82,15 +82,12 @@ const createMarkers = (items) => {
       {
         pinIcon,
       },
-      );
+    );
 
-      markerObj
+    markerObj
       .addTo(markerGroup)
       .bindPopup(createPopup(item));
-  })
+  });
 };
-
-
-
 
 export {createMarkers, createPopup, markerGroup};

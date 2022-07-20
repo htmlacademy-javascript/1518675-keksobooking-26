@@ -3,6 +3,8 @@ import {createMarkers, markerGroup} from './map.js';
 import {MAX_OBJECTS, filterObjects} from './filter.js';
 import {debounce} from './utils.js';
 
+const DEBOUNCE_TIME = 500;
+
 const createCards = (cards) => {
   const cardTemplate = document.querySelector('#card').content;
   const mapCanvas = document.querySelector('#map-canvas');
@@ -38,34 +40,25 @@ const createCards = (cards) => {
   mapCanvas.appendChild(cardListFragment);
 };
 
-
-// Код фильтра
+// Код обработчика фильтра
 const filterMap = document.querySelector('.map__filters');
 
-const debounceFilter = (cb) => {
-  debounce(cb, 1000);
-};
+let objectsData = [];
 
 const filterMapHandler = () => {
-  filterMap.addEventListener('change', function() {
-    markerGroup.clearLayers();
-
-    createMarkers(filterObjects(objectsData));
-  });
+  markerGroup.clearLayers();
+  createMarkers(filterObjects(objectsData));
 };
 
-
 // Код генерации элементов
-let objectsData = [];
+
 const generateObjects = (objects) => {
 
   objectsData = objects.slice();
-  let filteredObjects = objects.slice(0, MAX_OBJECTS);
+  const filteredObjects = objects.slice(0, MAX_OBJECTS);
 
   createMarkers(filteredObjects);
-
-  filterMap.addEventListener('change', filterMapHandler);
+  filterMap.addEventListener('change', debounce(filterMapHandler, DEBOUNCE_TIME));
 };
-
 
 export {createCards, generateObjects};

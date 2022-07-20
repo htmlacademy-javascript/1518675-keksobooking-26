@@ -1,6 +1,5 @@
 const MAX_OBJECTS = 10;
 const DEFAULT_VALUE = 'any';
-const DEBOUNCE_TIME = 500;
 
 const PRICE_RANGE = {
   any: { start: 0, end: Infinity },
@@ -30,14 +29,10 @@ const filterGuests = (object) => {
 };
 
 const filterFeatures = (object) => {
-  let checkedFeatures = Array.from(document.querySelectorAll('#housing-features [name="features"]:checked'));
+  const checkedFeatures = Array.from(document.querySelectorAll('#housing-features [name="features"]:checked'));
 
   if (object.offer.features !== undefined) {
-    return checkedFeatures.every((checkbox) => {
-      return object.offer.features.some((feature) => {
-        return feature === checkbox.value;
-      });
-    });
+    return checkedFeatures.every((checkbox) => object.offer.features.some((feature) => feature === checkbox.value));
   }
 
   return false;
@@ -45,7 +40,7 @@ const filterFeatures = (object) => {
 
 const filterObjects = (objects) => {
 
-  let filteredObjects = [];
+  const filteredObjects = [];
 
   for (const object of objects) {
     if (filteredObjects.length >= MAX_OBJECTS) {
@@ -58,7 +53,7 @@ const filterObjects = (objects) => {
       filterRooms(object) &&
       filterGuests(object) &&
       filterFeatures(object)
-      ) {
+    ) {
       filteredObjects.push(object);
     }
   }
