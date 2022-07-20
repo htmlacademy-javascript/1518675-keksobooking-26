@@ -1,5 +1,8 @@
 import {enableForm} from './form.js';
 import {createPopup} from './create-popup.js';
+import {makeRequest} from './api.js';
+import {generateObjects} from './create-elements.js';
+import {showGetDataError} from './errors.js';
 
 const CENTER_OF_TOKYO = {
   lat: 35.68950,
@@ -12,6 +15,7 @@ const MAX_DIGIT = 5;
 const map = L.map('map-canvas')
   .on('load', () => {
     enableForm();
+    makeRequest(generateObjects, showGetDataError, 'GET');
   })
   .setView({
     lat: CENTER_OF_TOKYO.lat,
@@ -66,22 +70,24 @@ marker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 // Функция создания всплывающего попапа
-const createMarker = (item) => {
-  const {lat, lng} = item.location;
+const createMarkers = (items) => {
+  items.forEach((item) => {
+    const {lat, lng} = item.location;
 
-  const markerObj = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      pinIcon,
-    },
-  );
+    const markerObj = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        pinIcon,
+      },
+    );
 
-  markerObj
-    .addTo(markerGroup)
-    .bindPopup(createPopup(item));
+    markerObj
+      .addTo(markerGroup)
+      .bindPopup(createPopup(item));
+  });
 };
 
-export {createMarker, createPopup};
+export {createMarkers, createPopup, markerGroup};

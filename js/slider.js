@@ -1,4 +1,4 @@
-import {OBJECT_TYPES, MAX_PRICE} from './data.js';
+import {OBJECT_TYPES, MAX_PRICE} from './form.js';
 
 const sliderElement = document.querySelector('.ad-form__slider');
 const typeOption = document.querySelector('#type');

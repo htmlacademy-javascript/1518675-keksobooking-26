@@ -1,5 +1,9 @@
-import {OBJECT_TYPES} from './data.js';
-import {createMarker} from './map.js';
+import {OBJECT_TYPES} from './form.js';
+import {createMarkers, markerGroup} from './map.js';
+import {MAX_OBJECTS, filterObjects} from './filter.js';
+import {debounce} from './utils.js';
+
+const DEBOUNCE_TIME = 500;
 
 const createCards = (cards) => {
   const cardTemplate = document.querySelector('#card').content;
@@ -36,10 +40,25 @@ const createCards = (cards) => {
   mapCanvas.appendChild(cardListFragment);
 };
 
+// Код обработчика фильтра
+const filterMap = document.querySelector('.map__filters');
+
+let objectsData = [];
+
+const filterMapHandler = () => {
+  markerGroup.clearLayers();
+  createMarkers(filterObjects(objectsData));
+};
+
+// Код генерации элементов
+
 const generateObjects = (objects) => {
-  objects.forEach((object) => {
-    createMarker(object);
-  });
+
+  objectsData = objects.slice();
+  const filteredObjects = objects.slice(0, MAX_OBJECTS);
+
+  createMarkers(filteredObjects);
+  filterMap.addEventListener('change', debounce(filterMapHandler, DEBOUNCE_TIME));
 };
 
 export {createCards, generateObjects};
