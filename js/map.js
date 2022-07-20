@@ -1,5 +1,8 @@
 import {enableForm} from './form.js';
 import {createPopup} from './create-popup.js';
+import {makeRequest} from './api.js';
+import {generateObjects} from './create-elements.js';
+import {showGetDataError} from './errors.js';
 
 const CENTER_OF_TOKYO = {
   lat: 35.68950,
@@ -12,18 +15,19 @@ const MAX_DIGIT = 5;
 const map = L.map('map-canvas')
   .on('load', () => {
     enableForm();
+    makeRequest(generateObjects, showGetDataError, 'GET');
   })
   .setView({
     lat: CENTER_OF_TOKYO.lat,
     lng: CENTER_OF_TOKYO.lng,
-  }, 10);
+}, 10);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
-).addTo(map);
+  ).addTo(map);
 
 // Создание кастомных пинов
 const mainPinIcon = L.icon({
@@ -40,14 +44,14 @@ const pinIcon =({
 
 // Добавление главного пина
 const marker = L.marker(
-  {
-    lat: CENTER_OF_TOKYO.lat,
-    lng: CENTER_OF_TOKYO.lng,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  }
+{
+  lat: CENTER_OF_TOKYO.lat,
+  lng: CENTER_OF_TOKYO.lng,
+},
+{
+  draggable: true,
+  icon: mainPinIcon,
+}
 );
 
 marker.addTo(map);
@@ -66,22 +70,27 @@ marker.on('moveend', (evt) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 // Функция создания всплывающего попапа
-const createMarker = (item) => {
-  const {lat, lng} = item.location;
+const createMarkers = (items) => {
+  items.forEach((item) => {
+    const {lat, lng} = item.location;
 
-  const markerObj = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      pinIcon,
-    },
-  );
+    const markerObj = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        pinIcon,
+      },
+      );
 
-  markerObj
-    .addTo(markerGroup)
-    .bindPopup(createPopup(item));
+      markerObj
+      .addTo(markerGroup)
+      .bindPopup(createPopup(item));
+  })
 };
 
-export {createMarker, createPopup, markerGroup};
+
+
+
+export {createMarkers, createPopup, markerGroup};

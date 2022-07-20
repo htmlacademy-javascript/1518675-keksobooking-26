@@ -1,28 +1,7 @@
 import {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getRandomObjectKey} from './utils.js';
 
 // Константы
-const OBJECT_TYPES = {
-  palace: {
-    name: 'Дворец',
-    minPrice: 10000
-  },
-  house: {
-    name: 'Дом',
-    minPrice: 5000
-  },
-  flat: {
-    name: 'Квартира',
-    minPrice: 1000
-  },
-  bungalow: {
-    name: 'Бунгало',
-    minPrice: 0
-  },
-  hotel: {
-    name: 'Отель',
-    minPrice: 3000
-  }
-};
+
 
 const FEATURES = {
   wifi: 'Wi-Fi',
@@ -35,7 +14,7 @@ const FEATURES = {
 
 const CHECK_IN_TIME = ['12:00', '13:00', '14:00'];
 const CHECK_OUT_TIME = ['12:00', '13:00', '14:00'];
-const MAX_PRICE = 6000000;
+
 const lat = { MIN: 35.65000, MAX: 35.70000 };
 const lng = { MIN: 139.70000, MAX: 139.80000 };
 const DIGITS_COORDINATE = 5;
@@ -85,4 +64,4 @@ const createData = (array = []) => {
   return array;
 };
 
-export {OBJECTS_AMOUNT, OBJECT_TYPES, FEATURES, MAX_PRICE, generateAuthorObj, generateOfferObj, generateLocationObj, createData};
+export {OBJECTS_AMOUNT, FEATURES, generateAuthorObj, generateOfferObj, generateLocationObj, createData};

@@ -1,23 +1,3 @@
-// Функция возвращающает случайное число с плавающей точкой из переданного диапазона включительно
-const getRandomPositiveFloat = (a, b, digits = 1) => {
-  const lower = Math.min(Math.abs(a), Math.abs(b));
-  const upper = Math.max(Math.abs(a), Math.abs(b));
-  const result = Math.random() * (upper - lower) + lower;
-
-  return +result.toFixed(digits);
-};
-
-// Функция возвращает случайный элемент из массива
-const getRandomArrayElement = (elements) => elements[getRandomPositiveFloat(0, elements.length - 1, 0)];
-
-// Функция возвращает случайный ключ из объекта
-const getRandomObjectKey = (object) => Object.keys(object)[getRandomPositiveFloat(0, Object.keys(object).length - 1, 0)];
-
-// Функция возвращает случайные координаты из заданного диапазона
-const getRandomCoordinate = (coordinate, digits) => getRandomPositiveFloat(coordinate.MIN, coordinate.MAX, digits);
-
-export {getRandomPositiveFloat, getRandomArrayElement, getRandomCoordinate, getRandomObjectKey};
-
 // Функция возвращает корректную форму множественного числа
 const getNounPluralForm = (number, one, two, many) => {
   const mod10 = number % 10;
@@ -60,26 +40,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-// Функция throttle для пропуска кадров
-function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-export {getNounPluralForm};
+export {getNounPluralForm, debounce};

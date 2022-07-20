@@ -1,4 +1,4 @@
-import {OBJECT_TYPES} from './data.js';
+import {OBJECT_TYPES} from './form.js';
 import {getNounPluralForm} from './utils.js';
 
 // Функция создания разметки из шаблона для всплывающего попапа

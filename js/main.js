@@ -1,12 +1,12 @@
 import './slider.js';
-import {makeRequest} from './api.js';
-import {showGetDataError} from './errors.js';
-import {setUserFormSubmit, resetForm} from './form.js';
-import {generateObjects} from './create-elements.js';
+
+import './map.js';
+import './form.js';
+
 import './upload-pictures.js';
 
 import './filter.js';
 
-makeRequest(generateObjects, showGetDataError, 'GET');
+// makeRequest(generateObjects, showGetDataError, 'GET');
 
-setUserFormSubmit(resetForm);
+// setUserFormSubmit(resetForm);

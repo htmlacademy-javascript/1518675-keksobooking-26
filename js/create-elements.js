@@ -1,5 +1,7 @@
-import {OBJECT_TYPES} from './data.js';
-import {createMarker, markerGroup} from './map.js';
+import {OBJECT_TYPES} from './form.js';
+import {createMarkers, markerGroup} from './map.js';
+import {MAX_OBJECTS, filterObjects} from './filter.js';
+import {debounce} from './utils.js';
 
 const createCards = (cards) => {
   const cardTemplate = document.querySelector('#card').content;
@@ -38,76 +40,31 @@ const createCards = (cards) => {
 
 
 // Код фильтра
-const setUserFormFilter = (cb) => {
-  const filterMap = document.querySelector('.map__filters');
+const filterMap = document.querySelector('.map__filters');
+
+const debounceFilter = (cb) => {
+  debounce(cb, 1000);
+};
+
+const filterMapHandler = () => {
   filterMap.addEventListener('change', function() {
     markerGroup.clearLayers();
 
-    cb();
+    createMarkers(filterObjects(objectsData));
   });
 };
-
-const priceFormRange = {
-  any: { start: 0, end: 50000000 },
-  middle: { start: 10000, end: 50000 },
-  low: { start: 0, end: 10000 },
-  high: { start: 50000, end: 50000000 }
-};
-
-const filterType = (object) => {
-  const type = document.querySelector('#housing-type').value;
-  return object.offer.type === type || type === 'any';
-};
-
-const filterPrice = (object) => {
-  const price = document.querySelector('#housing-price').value;
-  return object.offer.price <= priceFormRange[price].start && object.offer.price >= priceFormRange[price].end;
-};
-
-const filterObjects = (objects) => {
-
-  const filteredObjects = [];
-
-  console.log('Объекты, приходящие в filterObjects:');
-  console.log(objects);
-
-  const copy = objects.slice();
-
-  for (let i = 0; i <= copy.length; i++) {
-
-    if (filteredObjects.length < LIMIT_OF_OBJECTS) {
-      if (filterType(copy[i])) {
-        filteredObjects.push(copy[i]);
-      }
-    }
-  }
-
-  console.log('Отфильтрованные объекты:');
-  console.log(filteredObjects);
-
-  return filteredObjects;
-}
-
-
-const LIMIT_OF_OBJECTS = 15;
 
 
 // Код генерации элементов
+let objectsData = [];
 const generateObjects = (objects) => {
 
-  const filteredObjects = filterObjects(objects);
+  objectsData = objects.slice();
+  let filteredObjects = objects.slice(0, MAX_OBJECTS);
 
+  createMarkers(filteredObjects);
 
-  filteredObjects.forEach((object) => {
-    createMarker(object);
-  });
-};
-
-
-const generatedFilteredObjects = (objects) => {
-  setUserFormFilter(() => generateObjects(objects));
-
-
+  filterMap.addEventListener('change', filterMapHandler);
 };
 
 

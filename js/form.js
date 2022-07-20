@@ -1,6 +1,30 @@
-import {OBJECT_TYPES} from './data.js';
-import {makeRequest} from './api.js';
+
 import {showSendDataError} from './errors.js';
+
+const MAX_PRICE = 6000000;
+
+const OBJECT_TYPES = {
+  palace: {
+    name: 'Дворец',
+    minPrice: 10000
+  },
+  house: {
+    name: 'Дом',
+    minPrice: 5000
+  },
+  flat: {
+    name: 'Квартира',
+    minPrice: 1000
+  },
+  bungalow: {
+    name: 'Бунгало',
+    minPrice: 0
+  },
+  hotel: {
+    name: 'Отель',
+    minPrice: 3000
+  }
+};
 
 const formInfo = document.querySelector('.ad-form');
 const formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -161,4 +185,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm};
+export {MAX_PRICE, OBJECT_TYPES, disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm};
