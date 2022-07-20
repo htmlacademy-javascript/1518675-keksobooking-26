@@ -1,6 +1,31 @@
-import {OBJECT_TYPES} from './data.js';
 import {makeRequest} from './api.js';
 import {showSendDataError} from './errors.js';
+
+const MAX_PRICE = 6000000;
+const SUCCESS_SHOW_TIME = 5000;
+
+const OBJECT_TYPES = {
+  palace: {
+    name: 'Дворец',
+    minPrice: 10000
+  },
+  house: {
+    name: 'Дом',
+    minPrice: 5000
+  },
+  flat: {
+    name: 'Квартира',
+    minPrice: 1000
+  },
+  bungalow: {
+    name: 'Бунгало',
+    minPrice: 0
+  },
+  hotel: {
+    name: 'Отель',
+    minPrice: 3000
+  }
+};
 
 const formInfo = document.querySelector('.ad-form');
 const formFieldsets = document.querySelectorAll('.ad-form fieldset');
@@ -124,18 +149,34 @@ const resetForm = () => {
 
 document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
 
-// Функция блокирует кнопку отправки
-const blockSubmitButton = () => {
-  const button = document.querySelector('.ad-form__submit');
-  button.disabled = true;
-  button.textContent = 'Выполнение...';
-};
-
 // Функция разблокирует кнопку отправки
 const unblockSubmitButton = () => {
   const button = document.querySelector('.ad-form__submit');
   button.disabled = false;
+  button.style.pointerEvents = 'auto';
   button.textContent = 'Опубликовать';
+};
+
+// Функция блокирует кнопку отправки
+const blockSubmitButton = () => {
+  const button = document.querySelector('.ad-form__submit');
+  button.disabled = true;
+  button.style.pointerEvents = 'none';
+  button.textContent = 'Выполнение...';
+  setTimeout(() => {
+    unblockSubmitButton();
+  }, SUCCESS_SHOW_TIME);
+};
+
+// Функция показа успешной отправки формы
+const showSendDataSuccess = () => {
+  const successTemplate = document.querySelector('#success').content.querySelector('.success');
+  const successElement = successTemplate.cloneNode(true);
+  document.body.appendChild(successElement);
+
+  setTimeout(() => {
+    successElement.remove();
+  }, SUCCESS_SHOW_TIME);
 };
 
 // Функция отправки формы пользователя
@@ -147,11 +188,13 @@ const setUserFormSubmit = (onSuccess) => {
       blockSubmitButton();
       makeRequest(
         () => {
+          blockSubmitButton();
+          resetForm();
           onSuccess();
-          unblockSubmitButton();
         },
         () => {
           showSendDataError();
+          resetForm();
           unblockSubmitButton();
         },
         'POST',
@@ -161,4 +204,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm};
+export {MAX_PRICE, OBJECT_TYPES, disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm, showSendDataSuccess};
