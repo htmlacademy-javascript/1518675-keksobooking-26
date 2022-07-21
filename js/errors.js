@@ -1,13 +1,26 @@
 const ERROR_SHOW_TIME = 5000;
 
+const hideSendDataError = () => {
+  document.querySelector('.error').remove();
+};
+
+const hideSendDataErrorHandler = (evt) => {
+  if (evt.type === 'keydown' && evt.key !== 'Escape') {
+    return;
+  }
+
+  hideSendDataError();
+
+  window.removeEventListener('keydown', hideSendDataErrorHandler);
+};
+
 const showSendDataError = () => {
   const errorTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorElement = errorTemplate.cloneNode(true);
   document.body.appendChild(errorElement);
 
-  setTimeout(() => {
-    errorElement.remove();
-  }, ERROR_SHOW_TIME);
+  window.addEventListener('keydown', hideSendDataErrorHandler);
+  errorElement.addEventListener('click', hideSendDataErrorHandler);
 };
 
 const showGetDataError = (message) => {

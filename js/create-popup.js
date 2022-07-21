@@ -25,7 +25,9 @@ const createPopup = ({author, offer}) => {
     });
   }
 
-  popup.querySelector('.popup__description').textContent = `${offer.description}`;
+  if (offer.description) {
+    popup.querySelector('.popup__description').textContent = `${offer.description}`;
+  }
 
   const photosContainer = popup.querySelector('.popup__photos');
   photosContainer.innerHTML = '';
@@ -34,7 +36,6 @@ const createPopup = ({author, offer}) => {
       photosContainer.innerHTML += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
     });
   }
-
 
   return popup;
 };
