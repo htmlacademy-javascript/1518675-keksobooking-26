@@ -153,6 +153,7 @@ document.querySelector('.ad-form-header__info').addEventListener('click', resetF
 const unblockSubmitButton = () => {
   const button = document.querySelector('.ad-form__submit');
   button.disabled = false;
+  button.style.color = 'black';
   button.style.pointerEvents = 'auto';
   button.textContent = 'Опубликовать';
 };
@@ -162,13 +163,15 @@ const blockSubmitButton = () => {
   const button = document.querySelector('.ad-form__submit');
   button.disabled = true;
   button.style.pointerEvents = 'none';
+  button.style.color = 'grey';
   button.textContent = 'Выполнение...';
+
   setTimeout(() => {
     unblockSubmitButton();
   }, SUCCESS_SHOW_TIME);
 };
 
-// Функция показа успешной отправки формы
+// Функции показа успешной отправки формы
 const showSendDataSuccess = () => {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successElement = successTemplate.cloneNode(true);
@@ -194,7 +197,6 @@ const setUserFormSubmit = (onSuccess) => {
         },
         () => {
           showSendDataError();
-          resetForm();
           unblockSubmitButton();
         },
         'POST',
