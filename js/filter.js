@@ -33,7 +33,6 @@ const filterFeatures = (object) => {
 
   if (object.offer.features !== undefined) {
     return checkedFeatures.every((checkbox) => object.offer.features.includes(checkbox.value));
-    // return checkedFeatures.every((checkbox) => object.offer.features.some((feature) => feature === checkbox.value));
   }
 
   return false;

@@ -32,4 +32,4 @@ const generateObjects = (objects) => {
   });
 };
 
-export {generateObjects};
+export {generateObjects, filterMapHandler};

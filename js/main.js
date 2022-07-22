@@ -1,7 +1,8 @@
 import './slider.js';
-import './map.js';
-import {setUserFormSubmit, showSendDataSuccess} from './form.js';
+import {closePopup} from './map.js';
+import {setUserFormSubmit} from './form.js';
 import './upload-pictures.js';
 import './filter.js';
+import {filterMapHandler} from './create-elements.js';
 
-setUserFormSubmit(showSendDataSuccess);
+setUserFormSubmit(filterMapHandler, closePopup);

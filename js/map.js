@@ -104,6 +104,10 @@ const resetFormPosition = () => {
   });
 };
 
+const closePopup = () => {
+  map.closePopup();
+};
+
 resetFormButton.addEventListener('click', resetFormPosition);
 
-export {createMarkers, createPopup, markerGroup};
+export {createMarkers, createPopup, markerGroup, closePopup};
