@@ -1,7 +1,8 @@
 import {makeRequest} from './api.js';
 import {showSendDataError} from './errors.js';
 
-const MAX_PRICE = 6000000;
+
+const MAX_PRICE = 100000;
 const SUCCESS_SHOW_TIME = 5000;
 
 const resetFormButton = document.querySelector('.ad-form__reset');
@@ -34,9 +35,6 @@ const formFieldsets = document.querySelectorAll('.ad-form fieldset');
 const mapFilters = document.querySelector('.map__filters');
 
 const disableForm = () => {
-  if (!formInfo.classList.contains('ad-form--disabled')) {
-    formInfo.classList.add('ad-form--disabled');
-  }
   mapFilters.classList.toggle('map__filters--disabled');
   mapFilters.querySelectorAll('select').forEach((item) => { item.disabled = true; });
   mapFilters.querySelector('fieldset').disabled = true;
@@ -191,7 +189,7 @@ const showSendDataSuccess = () => {
 };
 
 // Функция отправки формы пользователя
-const setUserFormSubmit = (onSuccess) => {
+const setUserFormSubmit = (onSuccess, closePopup) => {
   formInfo.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -200,8 +198,10 @@ const setUserFormSubmit = (onSuccess) => {
       makeRequest(
         () => {
           blockSubmitButton();
+          showSendDataSuccess();
           resetForm();
           onSuccess();
+          closePopup();
         },
         () => {
           showSendDataError();
