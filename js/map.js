@@ -1,4 +1,4 @@
-import {enableForm} from './form.js';
+import {enableForm, resetFormButton} from './form.js';
 import {createPopup} from './create-popup.js';
 import {makeRequest} from './api.js';
 import {generateObjects} from './create-elements.js';
@@ -11,11 +11,14 @@ const CENTER_OF_TOKYO = {
 
 const MAX_DIGIT = 5;
 
+const address = document.querySelector('#address');
+
 // Создание карты
 const map = L.map('map-canvas')
   .on('load', () => {
     enableForm();
     makeRequest(generateObjects, showGetDataError, 'GET');
+    address.value = `${CENTER_OF_TOKYO.lat.toFixed(MAX_DIGIT)}, ${CENTER_OF_TOKYO.lng.toFixed(MAX_DIGIT)}`;
   })
   .setView({
     lat: CENTER_OF_TOKYO.lat,
@@ -36,10 +39,10 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const pinIcon =({
+const pinIcon = L.icon({
   iconUrl: './img/pin.svg',
-  iconSize: [25, 41],
-  iconAnchor: [12.5, 41],
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 });
 
 // Добавление главного пина
@@ -58,7 +61,6 @@ marker.addTo(map);
 
 // Функция подставновки координт главного пина в значение input
 const fillAddressInput = (obj) => {
-  const address = document.querySelector('#address');
   address.value = `${obj.lat.toFixed(MAX_DIGIT)}, ${obj.lng.toFixed(MAX_DIGIT)}`;
 };
 
@@ -80,7 +82,7 @@ const createMarkers = (items) => {
         lng,
       },
       {
-        pinIcon,
+        icon: pinIcon,
       },
     );
 
@@ -89,5 +91,19 @@ const createMarkers = (items) => {
       .bindPopup(createPopup(item));
   });
 };
+
+const resetFormPosition = () => {
+  map.setView({
+    lat: CENTER_OF_TOKYO.lat,
+    lng: CENTER_OF_TOKYO.lng,
+  }, 10);
+
+  marker.setLatLng({
+    lat: CENTER_OF_TOKYO.lat,
+    lng: CENTER_OF_TOKYO.lng,
+  });
+};
+
+resetFormButton.addEventListener('click', resetFormPosition);
 
 export {createMarkers, createPopup, markerGroup};

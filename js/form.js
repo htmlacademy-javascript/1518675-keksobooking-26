@@ -4,6 +4,8 @@ import {showSendDataError} from './errors.js';
 const MAX_PRICE = 6000000;
 const SUCCESS_SHOW_TIME = 5000;
 
+const resetFormButton = document.querySelector('.ad-form__reset');
+
 const OBJECT_TYPES = {
   palace: {
     name: 'Дворец',
@@ -45,7 +47,10 @@ const enableForm = () => {
   if (formInfo.classList.contains('ad-form--disabled')) {
     formInfo.classList.remove('ad-form--disabled');
   }
-  mapFilters.classList.toggle('map__filters--disabled');
+  if (mapFilters.classList.contains('map__filters--disabled')) {
+    mapFilters.classList.remove('map__filters--disabled');
+  }
+
   mapFilters.querySelectorAll('select').forEach((item) => { item.disabled = false; });
   mapFilters.querySelector('fieldset').disabled = false;
   formFieldsets.forEach((item) => { item.disabled = false; });
@@ -145,6 +150,9 @@ timeOut.addEventListener('change', timeOutHandler);
 // Функция возврата полей формы в первоначальное состояние
 const resetForm = () => {
   formInfo.reset();
+  mapFilters.reset();
+  document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
+  document.querySelector('.ad-form__photo').innerHTML = '';
 };
 
 document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
@@ -206,4 +214,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {MAX_PRICE, OBJECT_TYPES, disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm, showSendDataSuccess};
+export {MAX_PRICE, OBJECT_TYPES, disableForm, enableForm, validateFormPrice, setUserFormSubmit, resetForm, showSendDataSuccess, resetFormButton};
