@@ -2,6 +2,13 @@ import {makeRequest} from './api.js';
 import {showSendDataError} from './errors.js';
 
 
+
+
+
+
+
+
+
 const MAX_PRICE = 100000;
 const SUCCESS_SHOW_TIME = 5000;
 
