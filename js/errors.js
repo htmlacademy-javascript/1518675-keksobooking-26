@@ -1,17 +1,17 @@
+import {checkNotEsc} from './utils.js';
+
 const ERROR_SHOW_TIME = 5000;
 
 const hideSendDataError = () => {
   document.querySelector('.error').remove();
 };
 
-const hideSendDataErrorHandler = (evt) => {
-  if (evt.type === 'keydown' && evt.key !== 'Escape') {
-    return;
-  }
+const hideDataErrorHandler = (evt) => {
+  checkNotEsc(evt);
 
   hideSendDataError();
 
-  window.removeEventListener('keydown', hideSendDataErrorHandler);
+  window.removeEventListener('keydown', hideDataErrorHandler);
 };
 
 const showSendDataError = () => {
@@ -19,8 +19,8 @@ const showSendDataError = () => {
   const errorElement = errorTemplate.cloneNode(true);
   document.body.appendChild(errorElement);
 
-  window.addEventListener('keydown', hideSendDataErrorHandler);
-  errorElement.addEventListener('click', hideSendDataErrorHandler);
+  window.addEventListener('keydown', hideDataErrorHandler);
+  errorElement.addEventListener('click', hideDataErrorHandler);
 };
 
 const showGetDataError = (message) => {

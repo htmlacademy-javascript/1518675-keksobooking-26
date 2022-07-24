@@ -1,6 +1,9 @@
 import {OBJECT_TYPES} from './form.js';
 import {getNounPluralForm} from './utils.js';
 
+const PPEVIEW_WIDTH = '45px';
+const PREVIEW_HEIGTH = '40px';
+
 // Функция создания разметки из шаблона для всплывающего попапа
 const createPopup = ({author, offer}) => {
   const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -21,7 +24,10 @@ const createPopup = ({author, offer}) => {
   featuresContainer.innerHTML = '';
   if (offer.features) {
     offer.features.forEach((feature) => {
-      featuresContainer.innerHTML += `<li class="popup__feature popup__feature--${feature}"></li>`;
+
+      const featuresItem = document.createElement('li');
+      featuresItem.className = `popup__feature popup__feature--${feature}`;
+      featuresContainer.append(featuresItem);
     });
   } else {
     featuresContainer.remove();
@@ -38,7 +44,15 @@ const createPopup = ({author, offer}) => {
   photosContainer.innerHTML = '';
   if (offer.photos) {
     offer.photos.forEach((photo) => {
-      photosContainer.innerHTML += `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+
+      const photoImage = document.createElement('img');
+      photoImage.className = 'popup__photo';
+      photoImage.style.width = PPEVIEW_WIDTH;
+      photoImage.style.height = PREVIEW_HEIGTH;
+      photoImage.alt = 'Фотография жилья';
+      photoImage.src = `${photo}`;
+
+      photosContainer.append(photoImage);
     });
   } else {
     photosContainer.remove();

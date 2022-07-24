@@ -110,4 +110,4 @@ const closePopup = () => {
 
 resetFormButton.addEventListener('click', resetFormPosition);
 
-export {createMarkers, createPopup, markerGroup, closePopup};
+export {createMarkers, createPopup, markerGroup, closePopup, resetFormPosition};

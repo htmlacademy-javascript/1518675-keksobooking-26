@@ -40,4 +40,7 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-export {getNounPluralForm, debounce};
+// Функция обработчика клавиши Escape
+const checkNotEsc = (evt) => evt.type === 'keydown' && evt.key !== 'Escape';
+
+export {getNounPluralForm, debounce, checkNotEsc};

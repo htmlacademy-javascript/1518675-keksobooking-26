@@ -15,6 +15,14 @@ const filterMapHandler = () => {
   createMarkers(filterObjects(objectsData));
 };
 
+// Обработчик сброса формы и карты
+const resetFormHandler = () => {
+  markerGroup.clearLayers();
+  createMarkers(objectsData.slice(0, MAX_OBJECTS));
+
+  resetForm();
+};
+
 // Код генерации элементов
 const generateObjects = (objects) => {
 
@@ -24,12 +32,7 @@ const generateObjects = (objects) => {
   createMarkers(filteredObjects);
   filterMap.addEventListener('change', debounce(filterMapHandler, DEBOUNCE_TIME));
 
-  resetFormButton.addEventListener('click', () => {
-    markerGroup.clearLayers();
-    createMarkers(filteredObjects);
-
-    resetForm();
-  });
+  resetFormButton.addEventListener('click', resetFormHandler);
 };
 
 export {generateObjects, filterMapHandler};
