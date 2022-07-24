@@ -182,9 +182,7 @@ const hideSendDataSuccess = () => {
 
 const hideSendDataSuccessHandler = (evt) => {
   checkNotEsc(evt);
-
   hideSendDataSuccess();
-
   window.removeEventListener('keydown', hideSendDataSuccessHandler);
 };
 
