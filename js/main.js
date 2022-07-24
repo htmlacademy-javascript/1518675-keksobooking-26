@@ -4,5 +4,6 @@ import {setUserFormSubmit} from './form.js';
 import './upload-pictures.js';
 import './filter.js';
 import {filterMapHandler} from './create-elements.js';
+import {resetFormPosition} from './map.js';
 
-setUserFormSubmit(filterMapHandler, closePopup);
+setUserFormSubmit(filterMapHandler, closePopup, resetFormPosition);

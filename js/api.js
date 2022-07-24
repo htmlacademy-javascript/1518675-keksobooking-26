@@ -1,4 +1,4 @@
-import {enableForm, disableForm} from './form.js';
+import {enableForm} from './form.js';
 
 const Urls = {
   GET: 'https://26.javascript.pages.academy/keksobooking/data',
@@ -19,7 +19,6 @@ const makeRequest = (onSuccess, onError, method, body) => {
       enableForm();
     })
     .catch(() => {
-      disableForm();
       onError('Проблема при загрузке с сервера');
     });
 };

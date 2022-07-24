@@ -1,13 +1,7 @@
 import {makeRequest} from './api.js';
 import {showSendDataError} from './errors.js';
-
-
-
-
-
-
-
-
+import {sliderElement} from './slider.js';
+import {checkNotEsc} from './utils.js';
 
 const MAX_PRICE = 100000;
 const SUCCESS_SHOW_TIME = 5000;
@@ -97,9 +91,7 @@ const validateFormPrice = (value) => value.length !== 0 && value >= OBJECT_TYPES
 const validateFormPriceMessage = (value) => {
   const actualMinPrice = OBJECT_TYPES[formInfo.querySelector('#type option:checked').value].minPrice;
 
-  if (value.length === 0) {
-    return 'Поле обязательно для заполнения';
-  } else if (value <= actualMinPrice) {
+  if (value <= actualMinPrice) {
     return `Минимальное значение ${actualMinPrice}`;
   }
 
@@ -108,7 +100,6 @@ const validateFormPriceMessage = (value) => {
 
 const formInfoPrice = document.querySelector('#price');
 pristine.addValidator(formInfoPrice, validateFormPrice, validateFormPriceMessage);
-
 
 // Синхронизация плейсхолдера с ценой
 const typeChangeHandler = (evt) => {
@@ -158,6 +149,7 @@ const resetForm = () => {
   mapFilters.reset();
   document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
   document.querySelector('.ad-form__photo').innerHTML = '';
+  sliderElement.noUiSlider.reset();
 };
 
 document.querySelector('.ad-form-header__info').addEventListener('click', resetForm);
@@ -184,19 +176,30 @@ const blockSubmitButton = () => {
   }, SUCCESS_SHOW_TIME);
 };
 
+const hideSendDataSuccess = () => {
+  document.querySelector('.success').remove();
+};
+
+const hideSendDataSuccessHandler = (evt) => {
+  checkNotEsc(evt);
+
+  hideSendDataSuccess();
+
+  window.removeEventListener('keydown', hideSendDataSuccessHandler);
+};
+
 // Функции показа успешной отправки формы
 const showSendDataSuccess = () => {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successElement = successTemplate.cloneNode(true);
   document.body.appendChild(successElement);
 
-  setTimeout(() => {
-    successElement.remove();
-  }, SUCCESS_SHOW_TIME);
+  window.addEventListener('keydown', hideSendDataSuccessHandler);
+  successElement.addEventListener('click', hideSendDataSuccessHandler);
 };
 
 // Функция отправки формы пользователя
-const setUserFormSubmit = (onSuccess, closePopup) => {
+const setUserFormSubmit = (onSuccess, closePopup, resetFormPosition) => {
   formInfo.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -209,6 +212,7 @@ const setUserFormSubmit = (onSuccess, closePopup) => {
           resetForm();
           onSuccess();
           closePopup();
+          resetFormPosition();
         },
         () => {
           showSendDataError();

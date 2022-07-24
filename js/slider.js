@@ -18,11 +18,7 @@ noUiSlider.create(sliderElement, {
   },
 });
 
-sliderElement.noUiSlider.on('update', () => {
-  priceInput.value = sliderElement.noUiSlider.get();
-});
-
-typeOption.addEventListener('change', (evt) => {
+const changeTypeOptionHandler = (evt) => {
   sliderElement.noUiSlider.updateOptions({
     range: {
       min: OBJECT_TYPES[evt.target.value].minPrice,
@@ -31,4 +27,12 @@ typeOption.addEventListener('change', (evt) => {
     start: OBJECT_TYPES[evt.target.value].minPrice,
     step: 1,
   });
+};
+
+sliderElement.noUiSlider.on('update', () => {
+  priceInput.value = sliderElement.noUiSlider.get();
 });
+
+typeOption.addEventListener('change', changeTypeOptionHandler);
+
+export {sliderElement};
