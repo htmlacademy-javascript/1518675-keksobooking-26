@@ -1,4 +1,6 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const PHOTO_PREVIEW_WIDTH = '70px';
+const PHOTO_PREVIEW_HEIGHT = '70px';
 
 // Превью аватара
 const avatarChooser = document.querySelector('#avatar');
@@ -29,7 +31,15 @@ const objectPhotoChooserHandler = () => {
 
   if (matches) {
     const previewSrc = URL.createObjectURL(file);
-    previewContainer.innerHTML = `<img src="${previewSrc}" width="70" height="70" alt="Изображение объекта">`;
+
+    const imagePreview = document.createElement('img');
+
+    imagePreview.style.width = PHOTO_PREVIEW_WIDTH;
+    imagePreview.style.height = PHOTO_PREVIEW_HEIGHT;
+    imagePreview.alt = 'Изображение объекта';
+    imagePreview.src = `${previewSrc}`;
+
+    previewContainer.append(imagePreview);
   }
 };
 
